@@ -3,17 +3,77 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "dev": "vite --mode dev",
+    "build": "vue-tsc --noEmit && vite build --mode prod",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint \"src/**/*.{vue,ts,tsx}\" --fix",
+    "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "vue": "^3.2.25"
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@element-plus/icons-vue": "^2.0.6",
+    "axios": "^0.27.2",
+    "dayjs": "^1.11.3",
+    "element-plus": "^2.2.9",
+    "js-cookie": "^3.0.1",
+    "lodash-es": "^4.17.21",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "path-browserify": "^1.0.1",
+    "path-to-regexp": "^6.2.1",
+    "pinia": "^2.0.15",
+    "screenfull": "^6.0.2",
+    "vite-plugin-mock": "^2.9.6",
+    "vue": "^3.2.25",
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.0.3",
+    "@types/nprogress": "^0.2.0",
+    "@types/path-browserify": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "@vitejs/plugin-legacy": "^1.8.2",
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "eslint": "^8.19.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.2.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "sass": "^1.53.0",
     "typescript": "^4.5.4",
+    "unocss": "^0.44.0",
     "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
-  }
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-eslint-parser": "^9.0.3",
+    "vue-tsc": "^0.35.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{scss,less,css,html,md}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "{!(package)*.json,.!(browserslist)*rc}": [
+      "prettier --write--parser json"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
 }
