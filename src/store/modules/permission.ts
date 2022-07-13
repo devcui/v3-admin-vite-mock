@@ -54,6 +54,9 @@ export const usePermissionStore = defineStore({
       }
       this.routes = constantRoutes.concat(accessedRoutes)
       this.dynamicRoutes = accessedRoutes
+    },
+    addRoutes(routes: RouteRecordRaw[]) {
+      this.routes = this.routes.concat(routes)
     }
   }
 })

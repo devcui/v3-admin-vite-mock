@@ -9,6 +9,9 @@ import asyncRouteSettings from "@/config/async-route"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 
+const componentModules = import.meta.glob("../views/**/*.vue")
+const layoutModules = import.meta.glob("../layout/index.vue")
+
 NProgress.configure({ showSpinner: false })
 
 router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: any) => {
@@ -38,6 +41,16 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
           }
           // 将'有访问权限的动态路由' 添加到 Router 中
           permissionStore.dynamicRoutes.forEach((route) => {
+            router.addRoute(route)
+          })
+          // 添加http请求回来的路由
+          const httpRoutes: any = await userStore.getRoute()
+          const realRoutes = httpRoutes.map((route: any) => {
+            mapHttpRouteToRealRoute(route)
+            return route
+          })
+          permissionStore.addRoutes(realRoutes)
+          realRoutes.forEach((route: any) => {
             router.addRoute(route)
           })
           // 确保添加路由已完成
@@ -70,3 +83,19 @@ router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized
 router.afterEach(() => {
   NProgress.done()
 })
+
+function mapHttpRouteToRealRoute(route: any) {
+  if (route.component) {
+    if (Object.keys(componentModules).includes(`..${route.component}`)) {
+      route.component = componentModules[`..${route.component}`]
+    }
+    if (Object.keys(layoutModules).includes(`..${route.component}`)) {
+      route.component = layoutModules[`..${route.component}`]
+    }
+  }
+  if (route.children && route.children.length > 0) {
+    route.children.forEach((childRoute: any) => {
+      mapHttpRouteToRealRoute(childRoute)
+    })
+  }
+}

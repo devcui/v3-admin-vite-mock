@@ -20,3 +20,10 @@ export function getUserInfo() {
     method: "post"
   })
 }
+
+export function getRoutes() {
+  return request({
+    url: "/api/route",
+    method: "post"
+  })
+}

@@ -1,9 +1,19 @@
+/*
+ * @Author: cui<devcui@outlook.com>
+ * @LastEditors: cui<devcui@outlook.com>
+ * @Date: 2022-07-13 22:16:25
+ * @LastEditTime: 2022-07-13 22:49:02
+ * @FilePath: \swaffle-v2\src\store\modules\user.ts
+ * @Description:
+ *
+ * Copyright (c) 2022 by cui<devcui@outlook.com>, All Rights Reserved.
+ */
 import store from "@/store"
 import { defineStore } from "pinia"
 import { usePermissionStore } from "./permission"
 import { getToken, removeToken, setToken } from "@/utils/cookies"
 import router, { resetRouter } from "@/router"
-import { login, getUserInfo } from "@/api/login"
+import { login, getUserInfo, getRoutes } from "@/api/login"
 import { RouteRecordRaw } from "vue-router"
 
 interface IUserState {
@@ -52,6 +62,11 @@ export const useUserStore = defineStore({
           .catch((error) => {
             reject(error)
           })
+      })
+    },
+    getRoute() {
+      return getRoutes().then((response) => {
+        return response.data.routes
       })
     },
     /** 切换角色 */

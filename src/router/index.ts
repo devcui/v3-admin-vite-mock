@@ -1,21 +1,18 @@
+/*
+ * @Author: cui<devcui@outlook.com>
+ * @LastEditors: cui<devcui@outlook.com>
+ * @Date: 2022-07-13 22:16:25
+ * @LastEditTime: 2022-07-13 23:13:06
+ * @FilePath: \swaffle-v2\src\router\index.ts
+ * @Description:
+ *
+ * Copyright (c) 2022 by cui<devcui@outlook.com>, All Rights Reserved.
+ */
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 const Layout = () => import("@/layout/index.vue")
 
 /** 常驻路由 */
 export const constantRoutes: Array<RouteRecordRaw> = [
-  {
-    path: "/redirect",
-    component: Layout,
-    meta: {
-      hidden: true
-    },
-    children: [
-      {
-        path: "/redirect/:path(.*)",
-        component: () => import("@/views/redirect/index.vue")
-      }
-    ]
-  },
   {
     path: "/login",
     component: () => import("@/views/login/index.vue"),
@@ -39,137 +36,15 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         }
       }
     ]
-  },
-  {
-    path: "/unocss",
-    component: Layout,
-    redirect: "/unocss/index",
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/unocss/index.vue"),
-        name: "Unocss",
-        meta: {
-          title: "unocss",
-          icon: "unocss"
-        }
-      }
-    ]
-  },
-  {
-    path: "/link",
-    component: Layout,
-    children: [
-      {
-        path: "https://juejin.cn/post/7089377403717287972",
-        component: () => {},
-        name: "Link",
-        meta: {
-          title: "外链",
-          icon: "link"
-        }
-      }
-    ]
-  },
-  {
-    path: "/menu",
-    component: Layout,
-    redirect: "/menu/menu1",
-    name: "Menu",
-    meta: {
-      title: "多级菜单",
-      icon: "menu"
-    },
-    children: [
-      {
-        path: "menu1",
-        component: () => import("@/views/menu/menu1/index.vue"),
-        redirect: "/menu/menu1/menu1-1",
-        name: "Menu1",
-        meta: { title: "menu1" },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/menu/menu1/menu1-1/index.vue"),
-            name: "Menu1-1",
-            meta: { title: "menu1-1" }
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/menu/menu1/menu1-2/index.vue"),
-            redirect: "/menu/menu1/menu1-2/menu1-2-1",
-            name: "Menu1-2",
-            meta: { title: "menu1-2" },
-            children: [
-              {
-                path: "menu1-2-1",
-                component: () => import("@/views/menu/menu1/menu1-2/menu1-2-1/index.vue"),
-                name: "Menu1-2-1",
-                meta: { title: "menu1-2-1" }
-              },
-              {
-                path: "menu1-2-2",
-                component: () => import("@/views/menu/menu1/menu1-2/menu1-2-2/index.vue"),
-                name: "Menu1-2-2",
-                meta: { title: "menu1-2-2" }
-              }
-            ]
-          },
-          {
-            path: "menu1-3",
-            component: () => import("@/views/menu/menu1/menu1-3/index.vue"),
-            name: "Menu1-3",
-            meta: { title: "menu1-3" }
-          }
-        ]
-      },
-      {
-        path: "menu2",
-        component: () => import("@/views/menu/menu2/index.vue"),
-        name: "Menu2",
-        meta: { title: "menu2" }
-      }
-    ]
   }
 ]
 
 /**
- * 动态路由
+ * 权限路由
  * 用来放置有权限 (Roles 属性) 的路由
  * 必须带有 Name 属性
  */
 export const asyncRoutes: Array<RouteRecordRaw> = [
-  {
-    path: "/permission",
-    component: Layout,
-    redirect: "/permission/page",
-    name: "Permission",
-    meta: {
-      title: "权限管理",
-      icon: "lock",
-      roles: ["admin", "editor"], // 可以在根路由中设置角色
-      alwaysShow: true // 将始终显示根菜单
-    },
-    children: [
-      {
-        path: "page",
-        component: () => import("@/views/permission/page.vue"),
-        name: "PagePermission",
-        meta: {
-          title: "页面权限",
-          roles: ["admin"] // 或者在子导航中设置角色
-        }
-      },
-      {
-        path: "directive",
-        component: () => import("@/views/permission/directive.vue"),
-        name: "DirectivePermission",
-        meta: {
-          title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
-        }
-      }
-    ]
-  },
   {
     path: "/:pathMatch(.*)*", // 必须将 'ErrorPage' 路由放在最后, Must put the 'ErrorPage' route at the end
     component: Layout,
